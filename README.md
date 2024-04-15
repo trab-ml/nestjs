@@ -17,6 +17,15 @@
   - Controllers are responsible for handling incoming requests and returning responses to the client.
 - Providers
   - The main idea of a provider is that it can be injected as a dependency; this means objects can create various relationships with each other, and the function of "wiring up" these objects can largely be delegated to the Nest runtime system.
+- Modules
+  - A module is a class annotated with a @Module() decorator. The @Module() decorator provides metadata that Nest makes use of to organize the application structure.
+- Middleware
+  - Middleware is a function which is called before the route handler. Middleware functions have access to the request and response objects, and the next() middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+  - Client Side --http request--> Middleware --> Route Handler (@RequestMapping)...
+- Exception filters
+  - Nest comes with a built-in exceptions layer which is responsible for processing all unhandled exceptions across an application. When an exception is not handled by your application code, it is caught by this layer, which then automatically sends an appropriate user-friendly response.
+- Pipes
+  - A pipe is a class annotated with the @Injectable() decorator, which implements the PipeTransform interface.
 
 - **TODO**
   - Providers
@@ -35,10 +44,40 @@
   - For providing services...
   - Dependency Injection consists to inject the needed service in the controller, in order to serve the client (ex.:constructor(private clientsService: ClientsService) {}
 ).
+- DTO Schemas, validation & pipes
+  - DTO (Data Transfer Object defines how he data will be sent over the network (defines its format throught static (strong) typing))
+  - We could determine the DTO schema using TypeScript interfaces or simple classes (recommended)
+  - Pipes used for transformation (ex.: from a numeric string to a number) and validation...
+    - To not allow requests made up of unexpected format
+    - To make the needed transformation / conversion to make the sended data compatible
+    - To return appropriate error message when meeted unexpected data
+      - Such requests will fail
+        - GET localhost:3000/clients/a (numeric string instead of pure string)...
+  
+  - After create DTO for sended data, we still havent't use them until we use them in our controller to explicitly say validate this against that DTO, get the appropriate error message... ; ex (validate the given param createClientDto by using ValidationPipe with CreateClientDto):
+
+  ```js
+  @Post()
+  create(@Body(ValidationPipe) createClientDto: CreateClientDto) {
+    return this.clientsService.create(createClientDto);
+  }
+  ```
+
+  - [Several pipes](https://docs.nestjs.com/techniques/validation) available to validate the correctness (is this an email?...) of any data sent into our web app.
+  - Others dependencies needed for validation `npm i class-validator class-transformer`
+  - By default, we don't have partial types installed, so `npm i @nestjs/mapped-types -D`
+  - ... To preconize error detection, reusability, clarity, maintenability ...
+  - Error handling is not about the correcteness or the syntax of the incoming requests data (at this point that has been already checked). It's more about the bottom of things, precisely to avoid such issues:
+  
+  ```js
+  GET localhost:3000/clients/1000 // -> Status: 200 OK
+  GET localhost:3000/clients?role=MANAGER // -> Status: 200 OK, []
+  ```
+
+  given that we have any client with id=1000, either role=MANAGER. To fix that kind of issues we can use [built-in http exceptions](https://docs.nestjs.com/exception-filters#built-in-http-exceptions)
+- [Prisma ORM](https://www.prisma.io/), [Neon Postgres](https://neon.tech/)
 
 - **TODO**
-  - Providers
-  - Schemas, validation & pipes
   - Prisma ORM, Neon Postgres
   - REST API with CORS, Rate limits, Server logs, Exceptions filters
 

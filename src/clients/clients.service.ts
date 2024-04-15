@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateClientDto } from './dto/create-client.dto';
+import { UpdateClientDto } from './dto/update-client-dto';
 
 @Injectable()
 export class ClientsService {
@@ -31,40 +33,39 @@ export class ClientsService {
 
   findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
     if (role) {
-      return this.users.filter((user) => user.role == role);
+      const rolesArray = this.users.filter((user) => user.role == role);
+      if (rolesArray.length === 0) {
+        throw new NotFoundException('User Role Not Found');
+      }
+      return rolesArray;
     }
     return this.users;
   }
 
   findOne(id: number) {
-    return this.users.find((user) => user.id === id);
+    const user = this.users.find((user) => user.id === id);
+
+    if (!user) {
+      throw new NotFoundException('User Not Found');
+    }
+
+    return user;
   }
 
-  create(user: {
-    name: string;
-    email: string;
-    role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-  }) {
+  create(createClientDto: CreateClientDto) {
     const usersByHighestId = [...this.users].sort((u1, u2) => u2.id - u1.id);
     const newUser = {
       id: usersByHighestId[0].id + 1,
-      ...user,
+      ...createClientDto,
     };
     this.users.push(newUser);
     return newUser;
   }
 
-  update(
-    id: number,
-    updatedUser: {
-      name?: string;
-      email?: string;
-      role?: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
-  ) {
+  update(id: number, updateClientDto: UpdateClientDto) {
     this.users = this.users.map((user) => {
       if (user.id === id) {
-        return { ...user, ...updatedUser };
+        return { ...user, ...updateClientDto };
       }
       return user;
     });
