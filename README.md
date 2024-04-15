@@ -33,7 +33,8 @@
   - Query parameters are like this:  `/users?role=value&age=22` they are different of url parameters (`/users/2`...)
 - Providers...
   - For providing services...
-  - Dependency Injection consists to inject the needed service in the controller, in order to serve the client.
+  - Dependency Injection consists to inject the needed service in the controller, in order to serve the client (ex.:constructor(private clientsService: ClientsService) {}
+).
 
 - **TODO**
   - Providers

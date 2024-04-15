@@ -3,62 +3,54 @@ import {
   Controller,
   Delete,
   Get,
-  Header,
-  HttpCode,
   Param,
   Patch,
   Post,
   Query,
-  Redirect,
 } from '@nestjs/common';
+import { ClientsService } from './clients.service';
 
 @Controller('clients')
 export class ClientsController {
-  /*
-    GET /clients
-    GET /clients/:id
-    POST /clients
-    PATCH /clients/:id
-    DELETE /clients/:id
-    */
+  constructor(private readonly clientsService: ClientsService) {}
 
-  @Get() // /clients?role
+  @Get()
   findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
-    return 'Welcome ' + role;
-  }
-
-  @Get('docs') // /clients/docs or /clients/docs?version=5
-  @Redirect('https://docs.nestjs.com', 302)
-  getDocs(@Query('version') version) {
-    if (version && version === '5') {
-      return { url: 'https://docs.nestjs.com/v5/' };
-    }
+    return this.clientsService.findAll(role);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): { id: string } {
-    return { id };
+  findOne(@Param('id') id: string) {
+    return this.clientsService.findOne(+id);
   }
 
   @Post()
-  createAlternative(@Body() user: {}) {
-    return user;
-  }
-
-  @Post()
-  @Header('Cache-Control', 'none')
-  @HttpCode(204)
-  create(): string {
-    return 'Always';
+  create(
+    @Body()
+    user: {
+      name: string;
+      email: string;
+      role: 'INTERN' | 'ENGINEER' | 'ADMIN';
+    },
+  ) {
+    return this.clientsService.create(user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() userUpdate: {}) {
-    return { id, ...userUpdate };
+  update(
+    @Param('id') id: string,
+    @Body()
+    userUpdate: {
+      name?: string;
+      email?: string;
+      role?: 'INTERN' | 'ENGINEER' | 'ADMIN';
+    },
+  ) {
+    return this.clientsService.update(+id, userUpdate);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return { id };
+    return this.clientsService.delete(+id);
   }
 }
