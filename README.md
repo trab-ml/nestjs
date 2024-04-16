@@ -142,6 +142,10 @@ export class CatController() {
   npm i prisma -D
   npx prisma init
   npx prisma migrate dev --name init
+
+  # To run foreach changes in the model
+  # npx prisma generate 
+  # npx prisma migrate dev --name name_change 
   ```
 
 - **TODO**
