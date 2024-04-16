@@ -148,6 +148,9 @@ export class CatController() {
   # npx prisma migrate dev --name name_change 
   ```
 
+  - Very quick way to create APIs ```nest g resource employees```
+    - We can remove files we don't need (ex.: when we want to use Prisma models instead of typeScript DTOs and entities...)
+
 - **TODO**
   - [Prisma ORM, Neon Postgres](https://www.youtube.com/watch?v=6He5Gyuuvxk&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=5)
   - REST API with CORS, Rate limits, Server logs, Exceptions filters
