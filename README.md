@@ -1,6 +1,6 @@
 # NestJS
 
-- Able to work with any Node HTTP framework (out of the box: Express (by default), Fastify)
+- Able to work with any Node HTTP framework (out of the box: Express (by default), Fastify...)
 - Contrary to express, nest is opinionated
 - Well-structured architecture
 - Preconfigured with [Jest](https://jestjs.io/fr/) for testing;
@@ -10,6 +10,56 @@
 - Provider is a class that contains shared logic throughout the entire app and can be injected as a dependency (by implementing a guard, a pipe...) where needed
 - Any class with @Injectable decorator can be injected to a constructor
 - @Module to organize in small chunck that could be lazy loaded to run faster in serverless environment.
+
+## [By Fireship](https://www.youtube.com/watch?v=0M8AYU_hPas)
+
+```bash
+# nest require a Node.js binary built with internationalization support
+node -p process.versions.icu
+# undefined -> not authorized by nest
+
+npm i -g @nestjs/cli # or each time `npx @nestjs/cli@latest`
+nest new project-name
+
+# for a typescript project
+nest new project-name --strict 
+
+npm test # to run jest units test
+
+npm start # --> nest start
+npm start:dev # --> nest start --watch
+
+# to generate a dog controller
+nest g controller dog
+
+nest --help
+nest cmd --help
+```
+
+```js
+@Controller()
+export class CatController() {
+    // By default create a http witch lead to the root url <https://example.com>
+    @Get() // @Post()...
+    getCat() {}
+
+    // We could change the route
+    @Get('cat')
+    getCat() {}
+    
+    // Make it dynamic
+    @Get('cat/:id') // to get smg like <https://example.com/cat/24>
+    getCat() {}
+
+    // Request parameters or body
+    @Get()
+    getCat(@Body() body, @Param('id') id) {
+        return 'OK 👌';
+    }
+
+    // others decorators: @Header, @HttpCode...
+}
+```
 
 ## [By NestJS](https://docs.nestjs.com/)
 
@@ -26,9 +76,6 @@
   - Nest comes with a built-in exceptions layer which is responsible for processing all unhandled exceptions across an application. When an exception is not handled by your application code, it is caught by this layer, which then automatically sends an appropriate user-friendly response.
 - Pipes
   - A pipe is a class annotated with the @Injectable() decorator, which implements the PipeTransform interface.
-
-- **TODO**
-  - Providers
 
 ## [By Dave Gray](https://www.youtube.com/watch?v=juNVinepwKA&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=2)
 
@@ -75,66 +122,35 @@
   ```
 
   given that we have any client with id=1000, either role=MANAGER. To fix that kind of issues we can use [built-in http exceptions](https://docs.nestjs.com/exception-filters#built-in-http-exceptions)
-- [Prisma ORM](https://www.prisma.io/), [Neon Postgres](https://neon.tech/)
+- Prisma ORM, Neon Postgres Serverless Postgres.
+  - To add prisma dependencie to your project `npm i prisma -D` and then `npx prisma init`
+  - Quickstart with Prisma (a database toolkit and ORM for TypeScript and Node.js to simplify database access...) and Neon (A Postgres serverless)
+    - [Neon](https://neon.tech/docs/guides/prisma-migrations)
+    - [Prisma By Fireship](https://www.youtube.com/watch?v=rLRIB6AF2Dg)
+    - [Prisma](https://www.prisma.io/docs/getting-started/quickstart)
+  - Run a Prisma migration `npx prisma migrate dev --name init` (`init` when it's about the first one)
+    - Instead of `dev` and depending on what you're doing, we also have:
+      - push (it won't save the sql for you to reference later)
+      - deploy (when you're working on a local database first and then want to send thoses changes online later)
+  
+  ```bash
+  # .env
+  DATABASE_URL=NEON_DATABASE_CONNECTION_STRING # findable on Neon database / Connection details
+  ```
+
+  ```bash
+  npm i prisma -D
+  npx prisma init
+  npx prisma migrate dev --name init
+  ```
 
 - **TODO**
-  - Prisma ORM, Neon Postgres
+  - [Prisma ORM, Neon Postgres](https://www.youtube.com/watch?v=6He5Gyuuvxk&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=5)
   - REST API with CORS, Rate limits, Server logs, Exceptions filters
+  - [Next-Auth Login Authentication](https://www.youtube.com/watch?v=w2h54xz6Ndw)
 
 ## Hands on it
 
 - **TODO**
   - <https://docs.nestjs.com/recipes/prisma>
   - <https://docs.nestjs.com/security/authentication>
-
-```js
-@Controller()
-export class CatController() {
-    // By default create a http witch lead to the root url <https://example.com>
-    @Get() // @Post()...
-    getCat() {}
-
-    // We could change the route
-    @Get('cat')
-    getCat() {}
-    
-    // Make it dynamic
-    @Get('cat/:id') // to get smg like <https://example.com/cat/24>
-    getCat() {}
-
-    // Request parameters or body
-    @Get()
-    getCat(@Body() body, @Param('id') id) {
-        return 'OK 👌';
-    }
-
-    // others decorators
-    @Header, @HttpCode
-}
-```
-
-```bash
-# nest require a Node.js binary built with internationalization support
-node -p process.versions.icu
-# undefined -> not authorized by nest
-
-npm i -g @nestjs/cli # or each time `npx @nestjs/cli@latest`
-nest new project-name
-
-# for a typescript project
-nest new project-name --strict 
-
-npm test # to run jest units test
-
-npm start # --> nest start
-npm start:dev # --> nest start --watch
-
-# to generate a dog controller
-nest g controller dog
-
-nest --help
-nest cmd --help
-```
-
-- by Fireship <https://www.youtube.com/watch?v=0M8AYU_hPas>
-<https://docs.nestjs.com/>
