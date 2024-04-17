@@ -202,19 +202,16 @@ export class CatController() {
 
   - Very quick way to create APIs ```nest g resource employees```
     - We can remove files we don't need (ex.: when we want to use Prisma models instead of typeScript DTOs and entities...)
-- REST API with CORS, Rate limits, Server logs, Exceptions filters
-  - CORS (Cross-origin ressource sharing)
-
-- **TODO**
-  - [REST API with CORS, Rate limits, Server logs, Exceptions filters](https://www.youtube.com/watch?v=hQTtioSw4Zo&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=6)
-  - [Next-Auth Login Authentication](https://www.youtube.com/watch?v=w2h54xz6Ndw)
+- [REST API with CORS, Rate limits, Server logs, Exceptions filters...](#by-nestjs)
 
 ## Hands on it
 
 - **TODO**
   - <https://docs.nestjs.com/recipes/prisma>
   - <https://docs.nestjs.com/security/authentication>
+  
   - <https://jwt.io/>
   - Microservices
     - <https://www.youtube.com/watch?v=lL_j7ilk7rc&t=2s>
     - <https://www.youtube.com/watch?v=lTAcCNbJ7KE>
+  - [Next-Auth Login Authentication](https://www.youtube.com/watch?v=w2h54xz6Ndw)
