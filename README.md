@@ -90,7 +90,7 @@ export class CatController() {
     - [Client](https://github.com/troygoode/node-cors-client)
     - [Server](https://github.com/troygoode/node-cors-server)
   - <https://github.com/expressjs/cors?tab=readme-ov-file#configuration-options>
-- Rate Limit
+- [Rate Limit](https://docs.nestjs.com/security/rate-limiting)
   - A common technique to protect applications from brute-force attacks is rate-limiting. To get started, you'll need to install the @nestjs/throttler package.
   - `npm i @nestjs/throttler`
   - And then (for a maximal of 3 requests in 60000 ms (1 mn) request)
@@ -107,6 +107,27 @@ export class CatController() {
   })
   export class AppModule {}
   ```
+
+- [Logger](https://docs.nestjs.com/techniques/logger)
+  - Nest comes with a built-in text-based logger which is used during application bootstrapping and several other circumstances such as displaying caught exceptions (i.e., system logging).
+  - To use globally a customized logger 'MyLoggerService'
+
+    ```js
+    import { NestFactory } from '@nestjs/core';
+    import { AppModule } from './app.module';
+    import { MyLoggerService } from './my-logger/my-logger.service';
+
+    async function bootstrap() {
+      const app = await NestFactory.create(AppModule, {
+        bufferLogs: true,
+      });
+      app.useLogger(app.get(MyLoggerService));
+      app.enableCors();
+      app.setGlobalPrefix('thebox');
+      await app.listen(3000);
+    }
+    bootstrap();
+    ```
 
 ## [By Dave Gray](https://www.youtube.com/watch?v=juNVinepwKA&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=2)
 
