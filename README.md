@@ -76,6 +76,37 @@ export class CatController() {
   - Nest comes with a built-in exceptions layer which is responsible for processing all unhandled exceptions across an application. When an exception is not handled by your application code, it is caught by this layer, which then automatically sends an appropriate user-friendly response.
 - Pipes
   - A pipe is a class annotated with the @Injectable() decorator, which implements the PipeTransform interface.
+- CORS
+  - Cross-origin resource sharing (CORS) is a mechanism that allows resources to be requested from another domain. Under the hood, Nest makes use of the Express cors or Fastify @fastify/cors packages depending on the underlying platform. These packages provide various options that you can customize based on your requirements.
+  - To enable CORS
+
+    ```js
+    const app = await NestFactory.create(AppModule);
+    app.enableCors();
+    await app.listen(3000);
+    ```
+
+  - [What happens without CORS?](https://node-cors-client.netlify.app/)
+    - [Client](https://github.com/troygoode/node-cors-client)
+    - [Server](https://github.com/troygoode/node-cors-server)
+  - <https://github.com/expressjs/cors?tab=readme-ov-file#configuration-options>
+- Rate Limit
+  - A common technique to protect applications from brute-force attacks is rate-limiting. To get started, you'll need to install the @nestjs/throttler package.
+  - `npm i @nestjs/throttler`
+  - And then (for a maximal of 3 requests in 60000 ms (1 mn) request)
+
+  ```js
+  // app.module.ts
+  @Module({
+  imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 3,
+    }]),
+  ],
+  })
+  export class AppModule {}
+  ```
 
 ## [By Dave Gray](https://www.youtube.com/watch?v=juNVinepwKA&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=2)
 
@@ -150,10 +181,11 @@ export class CatController() {
 
   - Very quick way to create APIs ```nest g resource employees```
     - We can remove files we don't need (ex.: when we want to use Prisma models instead of typeScript DTOs and entities...)
+- REST API with CORS, Rate limits, Server logs, Exceptions filters
+  - CORS (Cross-origin ressource sharing)
 
 - **TODO**
-  - [Prisma ORM, Neon Postgres](https://www.youtube.com/watch?v=6He5Gyuuvxk&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=5)
-  - REST API with CORS, Rate limits, Server logs, Exceptions filters
+  - [REST API with CORS, Rate limits, Server logs, Exceptions filters](https://www.youtube.com/watch?v=hQTtioSw4Zo&list=PL0Zuz27SZ-6MexSAh5x1R3rU6Mg2zYBVr&index=6)
   - [Next-Auth Login Authentication](https://www.youtube.com/watch?v=w2h54xz6Ndw)
 
 ## Hands on it
@@ -161,3 +193,7 @@ export class CatController() {
 - **TODO**
   - <https://docs.nestjs.com/recipes/prisma>
   - <https://docs.nestjs.com/security/authentication>
+  - <https://jwt.io/>
+  - Microservices
+    - <https://www.youtube.com/watch?v=lL_j7ilk7rc&t=2s>
+    - <https://www.youtube.com/watch?v=lTAcCNbJ7KE>
