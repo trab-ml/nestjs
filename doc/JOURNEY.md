@@ -27,14 +27,42 @@ OR
 /wzt/publics
 ...
 
-TODO
+## To remove unauthorized field from the incoming data
 
-- Use DTO and Pipes for incoming data validation and verification
-- Better control over exceptions, error handling, operations authorized, number of requests
+```js
+app.useGlobalPipes(
+    new ValidationPipe({
+        whitelist: true,
+        // forbidNonWhitelisted: true, to stop the request from processing in such case
+    }),
+    );
+```
+
+```js
+POST
+{
+  "name": "Pierre Dupont",
+  "stageName": "Pierro",
+  "email": "pierro@gmail.com",
+  "profile": "PARTNER",
+  "city": "Lens"
+}
+WILL RETURN (no expected field 'city')
+{
+  "name": "Pierre Dupont",
+  "stageName": "Pierro",
+  "email": "pierro@gmail.com",
+  "profile": "PARTNER"
+}
+```
+
+### TODO
+
+- Operations authorized (Exceptions Filter)
+- Auth (jwt...)
 - Prisma ORM instead of DTO
 - Prisma and Neon serverless database
 - Logs
-- Auth (jwt...)
 
 <https://docs.nestjs.com/>
 <https://github.com/trab-ml/nestjs>

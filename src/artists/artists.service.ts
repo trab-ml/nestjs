@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 
@@ -44,7 +44,11 @@ export class ArtistsService {
   }
 
   findOne(id: number) {
-    return this.artists.find((artist) => artist.id === id);
+    const user = this.artists.find((artist) => artist.id === id);
+    if (!user) {
+      throw new NotFoundException('User Not Found');
+    }
+    return user;
   }
 
   update(id: number, updateArtistDto: UpdateArtistDto) {
@@ -64,11 +68,10 @@ export class ArtistsService {
 
   remove(id: number) {
     const toRemove = this.findOne(id);
+    if (!toRemove) {
+      throw new NotFoundException('User Not Found');
+    }
     this.artists = this.artists.filter((artist) => artist.id !== id);
     return toRemove;
   }
 }
-function Constructor(): (target: ArtistsService, propertyKey: "") => void {
-  throw new Error('Function not implemented.');
-}
-
