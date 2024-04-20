@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe, HttpStatus, UseFilters, BadRequestException } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
+import { HttpExceptionFilter } from 'src/http-exception.filter';
 
 @Controller('artists')
 export class ArtistsController {
@@ -15,6 +16,12 @@ export class ArtistsController {
   @Get()
   findAll() {
     return this.artistsService.findAll();
+  }
+  
+  @Get('bad')
+  @UseFilters(HttpExceptionFilter)
+  bad() {
+    throw new BadRequestException();
   }
 
   @Get(':id')
