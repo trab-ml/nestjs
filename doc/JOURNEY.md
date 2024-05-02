@@ -153,22 +153,25 @@ WILL RETURN (no expected field 'city')
 
     The module to choose (here app one), should be the one in which the filter (HttpExceptionFilter in the example above) is defined
 
+- [Catch everything](https://docs.nestjs.com/exception-filters#catch-everything)
+
+  ***Use Cases***: full control over the exceptions layer, add logging or use a different JSON schema based on some dynamic factors, control the exact flow of control and the content of the response sent back to the client.
+
+  To catch everything, we omit the target exception in `@Catch() decorator`.
+
+  - app.useGlobalFilters(new AllExceptionsFilter(httpAdapter)); doesn't work??
+  - Try out [APP_FILTER](https://docs.nestjs.com/exception-filters#binding-filters)
+
 ### TODO
 
-- [Implement Exceptions filter](https://docs.nestjs.com/exception-filters)
 - [Guard](https://docs.nestjs.com/guards)
+- [Logger](https://docs.nestjs.com/techniques/logger)
 - [Prisma, Sqlite](https://docs.nestjs.com/recipes/prisma)
   - <https://www.prisma.io/docs/orm/prisma-schema/data-model/models>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nestjs>
 - [Auth using JWT](https://docs.nestjs.com/security/authentication)
-
-- When to use [Exceptions Filter](https://docs.nestjs.com/exception-filters)?
-- [Auth](https://docs.nestjs.com/security/authentication) (jwt...)
-- Prisma ORM instead of DTO
-- Prisma and Neon serverless database
-- [Logger](https://docs.nestjs.com/techniques/logger)
 - [Testing](https://docs.nestjs.com/fundamentals/testing)
 
-<https://docs.nestjs.com/>
-<https://github.com/trab-ml/nestjs>
+- <https://docs.nestjs.com/>
+- <https://github.com/trab-ml/nestjs>
