@@ -132,6 +132,26 @@ WILL RETURN (no expected field 'city')
   - Test by yourself: GET localhost:3000/wzt/artists/bad
   - That way, expect that, recognized exceptions will be thrown ([built-in exceptions](https://docs.nestjs.com/exception-filters#exception-filters-1) or customs exceptions which inherit from ***HttpException*** class)
   - Prefer applying filters by using classes (`@UseFilters(HttpExceptionFilter)`) instead of instances ( `@UseFilters(new HttpExceptionFilter()`) when possible. It reduces memory usage since Nest can easily reuse instances of the same class across your entire module.
+  - The useGlobalFilters() method could be used to set up global-scoped filter (which not work for gateways or hybrid applications)
+    - An alternative to that ***custom provider registration*** issue
+
+    ```js
+    // app.module.ts
+    import { Module } from '@nestjs/common';
+    import { APP_FILTER } from '@nestjs/core';
+
+    @Module({
+      providers: [
+        {
+          provide: APP_FILTER,
+          useClass: HttpExceptionFilter,
+        },
+      ],
+    })
+    export class AppModule {}
+    ```
+
+    The module to choose (here app one), should be the one in which the filter (HttpExceptionFilter in the example above) is defined
 
 ### TODO
 

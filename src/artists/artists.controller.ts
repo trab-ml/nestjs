@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, Pars
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
 
 @Controller('artists')
 export class ArtistsController {
@@ -19,7 +18,6 @@ export class ArtistsController {
   }
   
   @Get('bad')
-  @UseFilters(HttpExceptionFilter)
   bad() {
     throw new BadRequestException();
   }
