@@ -27,6 +27,7 @@ import {
         statusCode: httpStatus,
         timestamp: new Date().toISOString(),
         path: httpAdapter.getRequestUrl(ctx.getRequest()),
+        src: "all-exceptions.filter.ts"
       };
   
       httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

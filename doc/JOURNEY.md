@@ -132,8 +132,8 @@ WILL RETURN (no expected field 'city')
   - Test by yourself: GET localhost:3000/wzt/artists/bad
   - That way, expect that, recognized exceptions will be thrown ([built-in exceptions](https://docs.nestjs.com/exception-filters#exception-filters-1) or customs exceptions which inherit from ***HttpException*** class)
   - Prefer applying filters by using classes (`@UseFilters(HttpExceptionFilter)`) instead of instances ( `@UseFilters(new HttpExceptionFilter()`) when possible. It reduces memory usage since Nest can easily reuse instances of the same class across your entire module.
-  - The useGlobalFilters() method could be used to set up global-scoped filter (which not work for gateways or hybrid applications)
-    - An alternative to that ***custom provider registration*** issue
+  - The **useGlobalFilters() method** could be used to set up global-scoped filter (which not work for gateways or hybrid applications)
+  - An alternative to that ***custom provider registration*** issue is **useClass method**
 
     ```js
     // app.module.ts
@@ -151,7 +151,9 @@ WILL RETURN (no expected field 'city')
     export class AppModule {}
     ```
 
-    The module to choose (here app one), should be the one in which the filter (HttpExceptionFilter in the example above) is defined
+    The module to choose (here app one), should be the one in which the filter (HttpExceptionFilter in the example above) is defined.
+  
+  - We could also use [**dependency injection**](https://docs.nestjs.com/fundamentals/custom-providers) (Have to test!).
 
 - [Catch everything](https://docs.nestjs.com/exception-filters#catch-everything)
 
@@ -159,8 +161,7 @@ WILL RETURN (no expected field 'city')
 
   To catch everything, we omit the target exception in `@Catch() decorator`.
 
-  - app.useGlobalFilters(new AllExceptionsFilter(httpAdapter)); doesn't work??
-  - Try out [APP_FILTER](https://docs.nestjs.com/exception-filters#binding-filters)
+  - While catching everything, **useClass method** is the one to preconize ([Learn More About it](https://docs.nestjs.com/exception-filters#binding-filters)).
 
 ### TODO
 

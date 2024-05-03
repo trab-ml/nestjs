@@ -15,7 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         statusCode: status,
         timestamp: new Date().toISOString(),
         path: request.url,
-        description: "Fck u"
+        src: "http-exception.filter.ts"
       });
   }
 }
