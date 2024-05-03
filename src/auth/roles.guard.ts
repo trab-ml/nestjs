@@ -5,7 +5,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 
 const fakeUser = {
   username: 'John',
-  roles: ['admini', 'manager', 'artist', 'partner'],
+  roles: ['admin', 'manager', 'artist', 'partner'],
 }
 
 @Injectable()
@@ -21,7 +21,7 @@ export class RolesGuard implements CanActivate {
 
     if (requiredRoles.every(requiredRole => fakeUser.roles.includes(requiredRole))) {
       console.log("User has every required role!");
-      return true;
+      // return true;
     }
 
     console.log("Unauthorized ressource!");

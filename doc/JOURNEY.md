@@ -1,6 +1,11 @@
 # REST API to perform WZT business logic
 
 ```js
+npm install -g @nestjs/cli
+nest --help
+```
+
+```js
 nest g module users
 nest g service users
 nest g controller users
@@ -195,9 +200,38 @@ quickstart: `nest g guard guard_name`
 
   - While catching everything, **useClass method** is the one to preconize ([Learn More About it](https://docs.nestjs.com/exception-filters#binding-filters)).
 
+- Nest Request / Response Pipeline
+  - <https://github.com/mguay22/nestjs-request-response-pipeline>
+  - <https://stackoverflow.com/questions/54863655/whats-the-difference-between-interceptor-vs-middleware-vs-filter-in-nest-js>
+  ![Nest Request / Response Pipeline](request_response_pipeline.jpg)
+
+- [Logger](https://docs.nestjs.com/techniques/logger)
+  A filter exception could be use to add custom logger (which can be use in security, performance or debugging purposes...).
+
+  When it's the case, we'll have to configure Nest as follow:
+
+  ```ts
+  const app = await NestFactory.create(AppModule, {
+  bufferLogs: true,
+  });
+  app.useLogger(app.get(MyLogger));
+  await app.listen(3000);
+  ```
+
+  ex.: We want to track all incoming requests of GET type
+
+  ```ts
+  // ...
+  private readonly logger = new MyLoggerService(EmployeesController.name);
+  @Get()
+  findAll(@Ip() ip:string, @Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+    this.logger.log(`Request for ALL Employees\t${ip}`, EmployeesController.name);
+    return this.employeesService.findAll(role);
+  }
+  ```
+
 ### TODO
 
-- [optimized exceptions filter with a Logger](https://docs.nestjs.com/techniques/logger) (optimized-all-exceptions-filter.ts)
 - [Auth using JWT](https://docs.nestjs.com/security/authentication)
 - authorization
 - [Prisma, Sqlite](https://docs.nestjs.com/recipes/prisma)
@@ -206,5 +240,8 @@ quickstart: `nest g guard guard_name`
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nestjs>
 - [Testing](https://docs.nestjs.com/fundamentals/testing)
 
-- <https://docs.nestjs.com/>
+- Middleware
+- Interceptors
+- <https://docs.nestjs.com/recipes/swc>
 - <https://github.com/trab-ml/nestjs>
+- <https://docs.nestjs.com/>

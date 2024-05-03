@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { ArtistsModule } from './artists/artists.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AllExceptionsFilter } from './all-exceptions-filter';
 import { AuthGuard } from './auth/auth.guard';
 import { RolesGuard } from './auth/roles.guard';
+import { AllExceptionsFilter } from './exception-filters/optimized-exceptions-filter';
 
 @Module({
   imports: [
