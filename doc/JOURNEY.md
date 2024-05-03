@@ -56,6 +56,38 @@ WILL RETURN (no expected field 'city')
 }
 ```
 
+## [Guards](https://docs.nestjs.com/guards)
+
+Guards have a single responsibility. They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) present at run-time.
+
+**Use cases**: authorization, authentification
+
+***They***
+
+- could be
+  - controller-scoped, method-scoped (`@UseGuards()`)
+  - or global-scoped (`useGlobalGuards()`, `useClass`)
+- are executed after all middleware, but before any interceptor or pipe.
+
+**Why not middlewares instead**: For authentification, they are fine choice, since things like token validation and attaching properties to the request object are not strongly connected with a particular route context (and its metadata). But middlewares doesn't know which handler will be executed after calling the `next()` function. On the other hand, Guards have access to the `ExecutionContext` instance, and thus know exactly what's going to be executed next.
+
+**To take advantage of the most important guard feature, the execution context (in order to determine what is allowed or not)**, we'll attach custom metadata to route handlers through either decorators created via Reflector#createDecorator static method, or the built-in @SetMetadata() decorator.
+
+  ```ts
+  import { Reflector } from '@nestjs/core';
+  export const Roles = Reflector.createDecorator<string[]>();
+  ```
+
+  ```ts
+  @Post()
+  @Roles(['admin'])
+  async create(@Body() createCatDto: CreateCatDto) {
+    this.catsService.create(createCatDto);
+  }
+  ```
+
+quickstart: `nest g guard guard_name`
+
 ## Exceptions filters
 
 ***To process all unhandled exceptions accross the app.***
@@ -165,13 +197,14 @@ WILL RETURN (no expected field 'city')
 
 ### TODO
 
-- [Guard](https://docs.nestjs.com/guards)
-- [Logger](https://docs.nestjs.com/techniques/logger)
+- [Guard](https://docs.nestjs.com/guards) method-scoped, global-scoped
+- [optimized exceptions filter with a Logger](https://docs.nestjs.com/techniques/logger) (optimized-all-exceptions-filter.ts)
+- [Auth using JWT](https://docs.nestjs.com/security/authentication)
+- authorization
 - [Prisma, Sqlite](https://docs.nestjs.com/recipes/prisma)
   - <https://www.prisma.io/docs/orm/prisma-schema/data-model/models>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nestjs>
-- [Auth using JWT](https://docs.nestjs.com/security/authentication)
 - [Testing](https://docs.nestjs.com/fundamentals/testing)
 
 - <https://docs.nestjs.com/>

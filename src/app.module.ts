@@ -4,6 +4,7 @@ import { ArtistsModule } from './artists/artists.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AllExceptionsFilter } from './all-exceptions-filter';
+// import { RolesGuard } from './auth/roles.guard';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { AllExceptionsFilter } from './all-exceptions-filter';
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
   ],
 })
 export class AppModule {}
