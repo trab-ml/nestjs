@@ -197,7 +197,6 @@ quickstart: `nest g guard guard_name`
 
 ### TODO
 
-- [Guard](https://docs.nestjs.com/guards) method-scoped, global-scoped
 - [optimized exceptions filter with a Logger](https://docs.nestjs.com/techniques/logger) (optimized-all-exceptions-filter.ts)
 - [Auth using JWT](https://docs.nestjs.com/security/authentication)
 - authorization

@@ -2,17 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, Pars
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { Roles } from 'src/auth/roles.decorator';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('artists')
 export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
   @Post()
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(['admin', 'manager'])
   create(@Body(ValidationPipe) createArtistDto: CreateArtistDto) {
     return this.artistsService.create(createArtistDto);
   }
