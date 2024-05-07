@@ -19,9 +19,9 @@ export class RolesGuard implements CanActivate {
     console.log("Required roles: ");
     console.log(requiredRoles);
 
-    if (requiredRoles.every(requiredRole => fakeUser.roles.includes(requiredRole))) {
+    if (requiredRoles?.every(requiredRole => fakeUser.roles.includes(requiredRole))) {
       console.log("User has every required role!");
-      // return true;
+      return true;
     }
 
     console.log("Unauthorized ressource!");
