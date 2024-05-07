@@ -230,10 +230,52 @@ quickstart: `nest g guard guard_name`
   }
   ```
 
+- Auth using JWT
+
+  ```bash
+  nest g module auth
+  nest g controller auth
+  nest g service auth
+
+  nest g module users
+  nest g service users
+
+  npm install --save @nestjs/jwt
+  ```
+
+  ```http
+  POST localhost:3000/wzt/auth/login
+  BODY 
+  {
+    "username": "maria",
+    "password": "guess"
+  }
+  -->
+  {
+  "access_token": "..."
+  }
+  ```
+
+  ```http
+  GET localhost:3000/wzt/auth/profile
+  Auth Bearer access_token_value
+  -->
+  {
+    "sub": 2,
+    "username": "maria",
+    "iat": 1715079651,
+    "exp": 1715079711
+  }
+  ```
+
+  - <https://docs.nestjs.com/security/authentication>
+  - <https://github.com/nestjs/nest/tree/master/sample/19-auth-jwt/src>
+  - <https://jwt.io/>
+  - <https://docs.nestjs.com/recipes/passport>
+
 ### TODO
 
-- [Auth using JWT](https://docs.nestjs.com/security/authentication)
-- authorization
+- Set global-scoped auth; update...;
 - [Prisma, Sqlite](https://docs.nestjs.com/recipes/prisma)
   - <https://www.prisma.io/docs/orm/prisma-schema/data-model/models>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express>

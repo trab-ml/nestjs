@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/oldAuth/decorators/roles.decorator';
 
 const fakeUser = {
   username: 'John',
