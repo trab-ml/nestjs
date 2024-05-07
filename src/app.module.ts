@@ -27,6 +27,10 @@ import { AuthGuard } from './auth/auth.guard';
       useClass: ThrottlerGuard,
     },
     {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },

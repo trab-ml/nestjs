@@ -230,6 +230,29 @@ quickstart: `nest g guard guard_name`
   }
   ```
 
+- JWT (Json Web Token)
+  - Intro
+    - JWT is used for authorization (to check that the user who sends requests against your app is the same who logged in (authenticated)).
+    - **authentication** relates to "Are you who you claim to be?"
+    - **authorization** relates to "What are you allowed to do?"
+    - Its an alternative to cookies + sessions (instead of create a session id which will be saved in cookies we could use jwt which will use Json Web Token to check authorization)
+    ![Cookies + sessions vs jwt](./cookies_+_sessions_vs_jwt.png)
+    ![Cookies, sessions, jwt](./cookies_sessions_jwt.png)
+    By using JWT:
+      - the server doesn't store nothing (it have to remember anything)
+      - in the jwt, we have all the informations about the users
+      - the browser could store that info in cookie storage
+      - for each request from the client, the server will verify the validity (the signature of the jwt)
+    - <https://www.youtube.com/watch?v=GhrvZ5nUWNg>
+    - <https://www.youtube.com/watch?v=7Q17ubqLfaM>
+    - <https://www.youtube.com/watch?v=UBUNrFtufWo&list=TLPQMDcwNTIwMjSAt0qkC_9vdg&index=2>
+  
+  - More about JWT
+    ![JWT Standards](./jwt_standards.png)
+    - <https://www.youtube.com/watch?v=S-xBAo47W58>
+    - <https://datatracker.ietf.org/doc/html/rfc7519>
+    - <https://www.youtube.com/watch?v=uAKzFhE3rxU>
+
 - Auth using JWT
 
   ```bash
@@ -268,6 +291,35 @@ quickstart: `nest g guard guard_name`
   }
   ```
 
+  - use auth as global-scoped
+
+    ```ts
+    providers: [
+      {
+        provide: APP_GUARD,
+        useClass: AuthGuard,
+      },
+    ],
+    ```
+
+    - When that's the case, we may define a mechanisme to define some routes public
+
+      ```ts
+      // in auth/decorators/public.decorator.ts
+      import { SetMetadata } from '@nestjs/common';
+      export const IS_PUBLIC_KEY = 'isPublic';
+      export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+      ```
+
+      ```ts
+      // in auth/target.file.ts
+      @Public()
+      @Get()
+      findAll() {
+        return [];
+      }
+      ```
+
   - <https://docs.nestjs.com/security/authentication>
   - <https://github.com/nestjs/nest/tree/master/sample/19-auth-jwt/src>
   - <https://jwt.io/>
@@ -275,11 +327,11 @@ quickstart: `nest g guard guard_name`
 
 ### TODO
 
-- Set global-scoped auth; update...;
 - [Prisma, Sqlite](https://docs.nestjs.com/recipes/prisma)
   - <https://www.prisma.io/docs/orm/prisma-schema/data-model/models>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-express>
   - <https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nestjs>
+- Improve Logger
 - [Testing](https://docs.nestjs.com/fundamentals/testing)
 
 - Middleware
