@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { ArtistsModule } from './artists/artists.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AllExceptionsFilter } from './exception-filters/optimized-exceptions-filter';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { AuthGuard } from './auth/auth.guard';
+// import { AuthGuard } from './auth/auth.guard';
+import { DatabaseModule } from './database/database.module';
+import { PostsModule } from './posts/posts.module';
+import { PostsService } from './posts/posts.service';
 
 @Module({
   imports: [
-    ArtistsModule,
     ThrottlerModule.forRoot([
       {
         ttl: 1000,
@@ -19,6 +20,8 @@ import { AuthGuard } from './auth/auth.guard';
     ]),
     AuthModule,
     UsersModule,
+    DatabaseModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -26,14 +29,15 @@ import { AuthGuard } from './auth/auth.guard';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    PostsService
   ],
 })
 export class AppModule {}
